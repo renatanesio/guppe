@@ -35,6 +35,19 @@ user2 = Acesso('user2@gmail.com', '654321')
 user1.mostra_email()
 user2.mostra_email()
 
+p1 = Produto('PlayStation 4', 'Console', 2500.00)
+p2 = Produto('PlayStation 5', 'Console', 5090.00)
+
+print(p1.valor)
+print(p2.valor)
+
+# OBS: não é preciso criar uma instância de uma classe para fazer acesso a um atributo de classe
+
+print(Produto.imposto)
+
+print(p1.id)
+print(p2.id)
+
 
 """
 
@@ -69,15 +82,14 @@ class ContaCorrente:
         self.saldo = saldo
 
 
-class Produto:
-
-    # Atributo de classe
-    imposto = 1.05  # 5% de imposto
-
-    def __init__(self, nome, descricao, valor):
-        self.nome = nome
-        self.descricao = descricao
-        self.valor = valor
+# class Produto:
+#
+#     def __init__(self, nome, descricao, valor):
+#         self.id = Produto.contador + 1
+#         self.nome = nome
+#         self.descricao = descricao
+#         self.valor = (valor
+#         Produto.contador = self.id
 
 
 class Usuario:
@@ -112,6 +124,7 @@ user = Acesso('user@gmail.com', '123456')
 user.mostra_email()
 user.mostra_senha()
 
+
 # print(user.__senha)  # AttributeError
 
 # print(user._Acesso__senha)  # Temos acesso, mas não deveríamos fazer este acesso (Name mangling)
@@ -123,5 +136,42 @@ user.mostra_senha()
 # instâncias da classe. Isto é, em vez de cada instância da classe ter seus próprios valores,
 # com os atributos de classe todas as instâncias terão o mesmo valor para este atributo.
 
-p1 = Produto('PlayStation 4', 'Console', 2500.00)
-p2 = Produto('PlayStation 5', 'Console', 5090.00)
+# Refatorar a classe Produto
+
+class Produto:
+    # Atributo de classe
+    imposto = 1.05  # 5% de imposto
+    contador = 0
+
+    def __init__(self, nome, descricao, valor):
+        self.id = Produto.contador + 1
+        self.nome = nome
+        self.descricao = descricao
+        self.valor = (valor * Produto.imposto)
+        Produto.contador = self.id
+
+
+# Atributos Dinâmicos: um atributo de instância que pode ser criado
+# em tempo de execução
+
+# OBS: O atributo dinâmico será exclusivo da instância que o criou
+
+p1 = Produto('PS4', 'Video Game', 2300)
+
+p2 = Produto('Arroz', 'Mercearia', 5.99)
+
+# Criando um atributo dinâmico em tempo de execução
+
+p2.peso = '5 kg'  # Note que na classe produto não existe o atributo peso
+
+print(f'Produto: {p2.nome}, Descrição: {p2.descricao}, Valor: {p2.valor}, Peso: {p2.peso}')
+
+print(p1.__dict__)
+print(p2.__dict__)
+
+# Deletando atributos
+
+del p2.peso
+
+print(p1.__dict__)
+print(p2.__dict__)
