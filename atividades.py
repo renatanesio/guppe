@@ -16,3 +16,10 @@ def dormir(num_horas):
 
     elif num_horas < 6:
         return f'Continuo cansado após dormir {num_horas} horas. =('
+
+
+def engracada(pessoa):
+    comediantes = ['Jim Carrey', 'Danilo Gentili']
+    if pessoa in comediantes:
+        return True
+    return False
